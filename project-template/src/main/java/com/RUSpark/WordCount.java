@@ -37,7 +37,7 @@ public final class WordCount {
       System.exit(1);
     }
 		
-		String InputPath = args[0];
+		String InputPath = args[0]; 
 
     SparkSession spark = SparkSession
       .builder()
