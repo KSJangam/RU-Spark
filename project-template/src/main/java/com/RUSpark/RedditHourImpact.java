@@ -31,16 +31,16 @@ public class RedditHourImpact {
 		  System.out.println(2);
 	JavaRDD<Row> rows = spark.read().csv(InputPath).javaRDD();
 	System.out.println(3);
-	JavaPairRDD<Integer, Integer> impacts = rows.mapToPair(s -> new Tuple2<>(new Date(Long.parseLong((String)s.get(1))*1000).getHours(), (Integer.parseInt((String) s.get(4))+Integer.parseInt((String) s.get(5)) +Integer.parseInt((String) s.get(6)))));
+	JavaPairRDD<String, Integer> impacts = rows.mapToPair(s -> new Tuple2<>(new Date(Long.parseLong((String)s.get(1))*1000).getHours()+"", (Integer.parseInt((String) s.get(4))+Integer.parseInt((String) s.get(5)) +Integer.parseInt((String) s.get(6)))));
 	//JavaPairRDD<Integer, Integer> impacts = rows.mapToPair(s -> new Tuple2<>(new Date(s.getLong(1)*1000).getHours(), (s.getInt(4)+s.getInt(5)+s.getInt(6))));
 	System.out.println(4);
-	 JavaPairRDD<Integer, Integer> summedImpacts = impacts.reduceByKey((i1, i2) -> i1 + i2);
+	 JavaPairRDD<String, Integer> summedImpacts = impacts.reduceByKey((i1, i2) -> i1 + i2);
 	 System.out.println(5);
-	 List<Tuple2<Integer, Integer>> output = summedImpacts.collect();
+	 List<Tuple2<String, Integer>> output = summedImpacts.collect();
 	 System.out.println(6);
 	 	for(int i=0; i<23; i++) {
 	    for (Tuple2<?,?> tuple : output) {
-	    	if(tuple._1().equals(i))
+	    	if(tuple._1().equals(i+""))
 	      System.out.println(tuple._1() + " " + tuple._2());
 	    }
 	 	}
