@@ -31,8 +31,8 @@ public class RedditHourImpact {
 	
 	JavaRDD<Row> rows = spark.read().csv(InputPath).javaRDD();
 	
-	//JavaRDD<Tuple2<String, Integer>> impacts = rows.map(s -> new Tuple2<String, Integer>((String)s.get(0), (Integer.parseInt((String) s.get(4))+Integer.parseInt((String) s.get(5)) +Integer.parseInt((String) s.get(6)))));
-	JavaPairRDD<Integer, Integer> impacts = rows.mapToPair(s -> new Tuple2<>(new Date(s.getLong(1)*1000).getHours(), (s.getInt(4)+s.getInt(5)+s.getInt(6))));
+	JavaPairRDD<Integer, Integer> impacts = rows.mapToPair(s -> new Tuple2<>(new Date(Long.parseLong((String)s.get(0))*1000).getHours(), (Integer.parseInt((String) s.get(4))+Integer.parseInt((String) s.get(5)) +Integer.parseInt((String) s.get(6)))));
+	//JavaPairRDD<Integer, Integer> impacts = rows.mapToPair(s -> new Tuple2<>(new Date(s.getLong(1)*1000).getHours(), (s.getInt(4)+s.getInt(5)+s.getInt(6))));
 	
 	 JavaPairRDD<Integer, Integer> summedImpacts = impacts.reduceByKey((i1, i2) -> i1 + i2);
 	
