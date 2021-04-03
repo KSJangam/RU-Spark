@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class RedditHourImpact {
 	// private static final Pattern SPACE = Pattern.compile(" ");
 	public static String getHour(String unixtime) {
-		Long ut = Long.parseLong(unixtime)*1000;
+		Long ut = Long.parseLong(unixtime);
 		System.out.println("long time: "+ut);
 		Long hour=((ut%(24*60*60))/3600)-4;
 		if(hour<0) {
