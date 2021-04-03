@@ -17,7 +17,7 @@ public class RedditHourImpact {
 	public static String getHour(String unixtime) {
 		Long ut = Long.parseLong(unixtime)*1000;
 		System.out.println("long time: "+ut);
-		int hour=(int)((ut%(24*60*60)/3600)-4);
+		Long hour=((ut%(24*60*60))/3600)-4;
 		if(hour<0) {
 			hour = 24+hour;
 		}
@@ -55,7 +55,7 @@ public class RedditHourImpact {
 	 System.out.println(5);
 	 List<Tuple2<String, Integer>> output = summedImpacts.collect();
 	 System.out.println(6);
-	 	for(int i=0; i<23; i++) {
+	 	for(int i=0; i<24; i++) {
 	    for (Tuple2<?,?> tuple : output) {
 	    	if(tuple._1().equals(i+""))
 	      System.out.println(tuple._1() + " " + tuple._2());
