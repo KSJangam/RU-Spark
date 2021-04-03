@@ -23,6 +23,15 @@ public class RedditHourImpact {
 		System.out.println("hour: "+hour);
 		return hour+"";
 	}
+	public static Tuple2<String, Integer> getPair(Row r){
+		String timestamp = (String)r.getString(1);
+		System.out.println("timestamp: "+timestamp);
+		int interactions = (Integer.parseInt((String) r.get(4))+Integer.parseInt((String) r.get(5)) +Integer.parseInt((String) r.get(6)));
+		System.out.println("interactions: "+interactions);
+		String hour = getHour(timestamp);
+		System.out.println("hour: "+ hour);
+		return new Tuple2<>(hour, interactions);
+	}
 	public static void main(String[] args) throws Exception {
     if (args.length < 1) {
       System.err.println("Usage: RedditHourImpact <file>");
@@ -37,7 +46,8 @@ public class RedditHourImpact {
 		  System.out.println(2);
 	JavaRDD<Row> rows = spark.read().csv(InputPath).javaRDD();
 	System.out.println(3);
-	JavaPairRDD<String, Integer> impacts = rows.mapToPair(s -> new Tuple2<>((String)getHour((String)s.getString(1)), (Integer.parseInt((String) s.get(4))+Integer.parseInt((String) s.get(5)) +Integer.parseInt((String) s.get(6)))));
+//	JavaPairRDD<String, Integer> impacts = rows.mapToPair(s -> new Tuple2<>((String)getHour((String)s.getString(1)), (Integer.parseInt((String) s.get(4))+Integer.parseInt((String) s.get(5)) +Integer.parseInt((String) s.get(6)))));
+	JavaPairRDD<String, Integer> impacts = rows.mapToPair(s -> getPair(s));
 	//JavaPairRDD<Integer, Integer> impacts = rows.mapToPair(s -> new Tuple2<>(new Date(s.getLong(1)*1000).getHours(), (s.getInt(4)+s.getInt(5)+s.getInt(6))));
 	System.out.println(4);
 	 JavaPairRDD<String, Integer> summedImpacts = impacts.reduceByKey((i1, i2) -> i1 + i2);
