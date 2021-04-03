@@ -17,9 +17,10 @@ public class RedditHourImpact {
 	public static String getHour(String unixtime) {
 		Long ut = Long.parseLong(unixtime)*1000;
 		System.out.println("long time: "+ut);
-		Date d = new Date(ut);
-		System.out.println("date created");
-		int hour = d.getHours();
+		int hour=(int)((ut%(24*60*60)/3600)-4);
+		if(hour<0) {
+			hour = 24+hour;
+		}
 		System.out.println("hour: "+hour);
 		return hour+"";
 	}
