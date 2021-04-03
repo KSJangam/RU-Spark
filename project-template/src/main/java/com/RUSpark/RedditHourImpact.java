@@ -4,9 +4,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-
 import scala.Tuple2;
-
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
@@ -18,19 +16,21 @@ public class RedditHourImpact {
 	// private static final Pattern SPACE = Pattern.compile(" ");
 	public static String getHour(String unixtime) {
 		Long ut = Long.parseLong(unixtime)*1000;
+		System.out.println("long time: "+ut);
 		Date d = new Date(ut);
+		System.out.println("date created");
 		int hour = d.getHours();
 		System.out.println("hour: "+hour);
 		return hour+"";
 	}
 	public static Tuple2<String, Integer> getPair(Row r){
-		Long timestamp = r.getLong(1);
+		String timestamp = (String)r.getString(1);
 		System.out.println("timestamp: "+timestamp);
 		int interactions = (Integer.parseInt((String) r.get(4))+Integer.parseInt((String) r.get(5)) +Integer.parseInt((String) r.get(6)));
 		System.out.println("interactions: "+interactions);
-		int hour = new Date(timestamp*1000).getHours();
+		String hour = getHour(timestamp);
 		System.out.println("hour: "+ hour);
-		return new Tuple2<>((hour+""), interactions);
+		return new Tuple2<>(hour, interactions);
 	}
 	public static void main(String[] args) throws Exception {
     if (args.length < 1) {
