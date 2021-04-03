@@ -16,8 +16,14 @@ import java.util.regex.Pattern;
 
 public class RedditHourImpact {
 	// private static final Pattern SPACE = Pattern.compile(" ");
+	public static String getHour(String unixtime) {
+		Long ut = Long.parseLong(unixtime)*1000;
+		Date d = new Date(ut);
+		int hour = d.getHours();
+		System.out.println("hour: "+hour);
+		return hour+"";
+	}
 	public static void main(String[] args) throws Exception {
-
     if (args.length < 1) {
       System.err.println("Usage: RedditHourImpact <file>");
       System.exit(1);
@@ -31,7 +37,7 @@ public class RedditHourImpact {
 		  System.out.println(2);
 	JavaRDD<Row> rows = spark.read().csv(InputPath).javaRDD();
 	System.out.println(3);
-	JavaPairRDD<String, Integer> impacts = rows.mapToPair(s -> new Tuple2<>(new Date(Long.parseLong((String)s.get(1))*1000).getHours()+"", (Integer.parseInt((String) s.get(4))+Integer.parseInt((String) s.get(5)) +Integer.parseInt((String) s.get(6)))));
+	JavaPairRDD<String, Integer> impacts = rows.mapToPair(s -> new Tuple2<>((String)getHour((String)s.getString(0)), (Integer.parseInt((String) s.get(4))+Integer.parseInt((String) s.get(5)) +Integer.parseInt((String) s.get(6)))));
 	//JavaPairRDD<Integer, Integer> impacts = rows.mapToPair(s -> new Tuple2<>(new Date(s.getLong(1)*1000).getHours(), (s.getInt(4)+s.getInt(5)+s.getInt(6))));
 	System.out.println(4);
 	 JavaPairRDD<String, Integer> summedImpacts = impacts.reduceByKey((i1, i2) -> i1 + i2);
