@@ -24,13 +24,13 @@ public class RedditHourImpact {
 		return hour+"";
 	}
 	public static Tuple2<String, Integer> getPair(Row r){
-		String timestamp = (String)r.getString(1);
+		Long timestamp = r.getLong(1);
 		System.out.println("timestamp: "+timestamp);
 		int interactions = (Integer.parseInt((String) r.get(4))+Integer.parseInt((String) r.get(5)) +Integer.parseInt((String) r.get(6)));
 		System.out.println("interactions: "+interactions);
-		String hour = getHour(timestamp);
+		int hour = new Date(timestamp*1000).getHours();
 		System.out.println("hour: "+ hour);
-		return new Tuple2<>(hour, interactions);
+		return new Tuple2<>((hour+""), interactions);
 	}
 	public static void main(String[] args) throws Exception {
     if (args.length < 1) {
