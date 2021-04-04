@@ -47,14 +47,14 @@ public class NetflixMovieAverage {
 	System.out.println(5);
 	    for (Tuple2<?,?> tuple : ratingsOutput) {
 	    	for(Tuple2<?,?> tuple2 : countsOutput) {
-	    		if((tuple._1()).equals(tuple._2())) {
+	    		if(tuple._1().equals(tuple2._1())) {
 	    		  System.out.println(tuple._1() + " " + String.format("%.2f", ((Double)tuple._2())*1.0/((Double)tuple2._2())));
 	    		  break;
 	    		}
 	    			 
 	    	}
 	       }
-	   
+	   System.out.println(6);
 	    spark.stop();
 		/* Implement Here */ 
 		
