@@ -49,7 +49,7 @@ public class NetflixMovieAverage {
 	    	for(Tuple2<?,?> tuple2 : countsOutput) {
 	    		if(((String)tuple._1()).equals((String)tuple2._1())) {
 	    			System.out.println("hello");
-	    		  System.out.println(tuple._1() + " " + String.format("%.2f", ((Double)tuple._2())*1.0/((Double)tuple2._2())));
+	    		  System.out.println(tuple._1() + " " + String.format("%.2f", (Double.parseDouble((String)tuple._2()))/(Double.parseDouble((String)tuple2._2()))));
 	    		  break;
 	    		}
 	    			 
