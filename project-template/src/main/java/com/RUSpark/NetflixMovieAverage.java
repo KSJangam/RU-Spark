@@ -50,7 +50,7 @@ public class NetflixMovieAverage {
 	    		if(((String)tuple._1()).equals((String)tuple2._1())) {
 	    			System.out.println("helloo");
 	    		// System.out.println((String)tuple._1() + " " + String.format("%.2f", (Integer.parseInt((String)tuple._2()))*1.0/(Integer.parseInt((String)tuple2._2()))));
-	    			 System.out.println((String)tuple._1() + " " + tuple._2().toString()+tuple2._2());
+	    			 System.out.println((String)tuple._1() + " " + Integer.parseInt(tuple._2().toString())+(Integer.parseInt(tuple2._2().toString())));
 	 	    		System.out.println("hi");
 	    			break;
 	    		}
