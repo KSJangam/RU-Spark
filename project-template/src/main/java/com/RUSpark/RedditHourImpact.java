@@ -16,21 +16,16 @@ public class RedditHourImpact {
 	// private static final Pattern SPACE = Pattern.compile(" ");
 	public static String getHour(String unixtime) {
 		Long ut = Long.parseLong(unixtime);
-		System.out.println("long time: "+ut);
 		Long hour=((ut%(24*60*60))/3600)-4;
 		if(hour<0) {
 			hour = 24+hour;
 		}
-		System.out.println("hour: "+hour);
 		return hour+"";
 	}
 	public static Tuple2<String, Integer> getPair(Row r){
 		String timestamp = (String)r.getString(1);
-		System.out.println("timestamp: "+timestamp);
 		int interactions = (Integer.parseInt((String) r.get(4))+Integer.parseInt((String) r.get(5)) +Integer.parseInt((String) r.get(6)));
-		System.out.println("interactions: "+interactions);
 		String hour = getHour(timestamp);
-		System.out.println("hour: "+ hour);
 		return new Tuple2<>(hour, interactions);
 	}
 	public static void main(String[] args) throws Exception {
@@ -43,11 +38,11 @@ public class RedditHourImpact {
 			      .builder()
 			      .appName("RedditHourImpact")
 			      .getOrCreate();
-		  System.out.println(2);
 	JavaRDD<Row> rows = spark.read().csv(InputPath).javaRDD();
 		JavaPairRDD<String, Integer> impacts = rows.mapToPair(s -> getPair(s));
 	 JavaPairRDD<String, Integer> summedImpacts = impacts.reduceByKey((i1, i2) -> i1 + i2);
 	 List<Tuple2<String, Integer>> output = summedImpacts.collect();
+	/*
 	 int max = 0;
 	 String maxid="";
 	    for (Tuple2<?,?> tuple : output) {
@@ -59,14 +54,14 @@ public class RedditHourImpact {
 	    }
 	    
 	   System.out.println("best hour: "+maxid+" with "+max);
-	   /*
+	   */
 	 	for(int i=0; i<24; i++) {
 	    for (Tuple2<?,?> tuple : output) {
 	    	if(tuple._1().equals(i+""))
 	      System.out.println(tuple._1() + " " + tuple._2());
 	    }
 	 	}
-	 	*/
+	 	
 	    spark.stop();
 		
 		
