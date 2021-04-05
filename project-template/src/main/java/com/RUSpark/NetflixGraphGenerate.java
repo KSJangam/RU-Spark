@@ -58,12 +58,9 @@ public class NetflixGraphGenerate {
 		JavaPairRDD<String, Integer> summedEdges = edges.reduceByKey((i1, i2) -> i1 + i2);
 		List<Tuple2<String, Integer>> output = summedEdges.collect();
 		for (Tuple2<?,?> tuple : output) {
-			if(Integer.parseInt(tuple._2().toString())>1)
 		      System.out.println(tuple._1() + " " + tuple._2());
 		    }
-		System.out.println(6);
-		/* Implement Here */ 
-		
+	
 	}
 	
 
