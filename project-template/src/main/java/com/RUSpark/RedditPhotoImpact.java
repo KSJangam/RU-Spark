@@ -36,16 +36,12 @@ public class RedditPhotoImpact {
 	 JavaPairRDD<String, Integer> summedImpacts = impacts.reduceByKey((i1, i2) -> i1 + i2);
 
 	 List<Tuple2<String, Integer>> output = summedImpacts.collect();
-	 int max = 0;
-	 String maxid="";
+	
 	    for (Tuple2<?,?> tuple : output) {
-	    	if(max<Integer.parseInt(tuple._2().toString())) {
-	    		max = Integer.parseInt(tuple._2().toString());
-	    		maxid=(String) tuple._1();
-	    	}
-	     // System.out.println(tuple._1() + " " + tuple._2());
+	    	
+	     System.out.println(tuple._1() + " " + tuple._2());
 	    }
-	   System.out.println("best photo: "+maxid+" with "+max);
+	 
 	    spark.stop(); 
 		
 	}
